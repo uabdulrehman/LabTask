@@ -1,3 +1,2 @@
 This is my application
 Hello world 
-Today date is 30/Apr/2026 last day of April 2026
