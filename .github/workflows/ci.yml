@@ -3,10 +3,35 @@ name: CI Validation Pipeline
 on: [push]
 
 jobs:
-  build:
+  build-test-validate:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Validate app.txt
-        run: cat app.txt
+      # Step 1: Get your code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      # Step 3: Check Python file syntax
+      - name: Validate Python Syntax
+        run: python -m py_compile app.py
+
+      # Step 4: Run Python file (optional but important)
+      - name: Run Python File
+        run: python app.py
+
+      # Step 5: Generate Validation Report
+      - name: Generate Report
+        run: echo "Python validation successful" > report.txt
+
+      # Step 6: Upload Evidence
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: validation-report
+          path: report.txt
